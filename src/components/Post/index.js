@@ -16,6 +16,8 @@ import {
   TextInput
 } from 'react-native';
 
+import InputComentario from '../InputComentario';
+
 const screen = Dimensions.get('screen');
 
 export default class Post extends Component {
@@ -25,15 +27,14 @@ export default class Post extends Component {
 
       this.state = {
         foto: this.props.foto,
-        valorComentario: ''
       }
     }
 
     carregaIcone(likeada) {
       if(likeada){
-        return require('../../resources/img/s2-checked.png')
+        return require('../../../resources/img/s2-checked.png')
       }
-      return require('../../resources/img/s2.png')
+      return require('../../../resources/img/s2.png')
     }
 
     exibeLegenda(foto) {
@@ -76,15 +77,15 @@ export default class Post extends Component {
       this.setState({foto: fotoAtualizada})
     }
 
-    adicionaComentario = () => {
-      if(this.state.valorComentario === '')
+    adicionaComentario = (valorComentario) => {
+      if(valorComentario === '')
         return;
 
       const novaLista = [
         ... this.state.foto.comentarios, {
           id: Math.random(),
-          login: 'meuUsario',
-          texto: this.state.valorComentario
+          login: 'meuUsuario',
+          texto: valorComentario
         }
       ]
 
@@ -94,7 +95,7 @@ export default class Post extends Component {
       };
 
       this.setState({foto: fotoAtualizada, valorComentario: ''});
-      this.inputComentario.clear();
+      
     }
 
     likers = () => {
@@ -132,18 +133,7 @@ export default class Post extends Component {
                     );
                   })
                 }
-                <View style={styles.novoComentario}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Adicione um comentario"
-                    underlineColorAndroid="transparent"
-                    ref={input => this.inputComentario = input}
-                    onChangeText={texto => this.setState({valorComentario: texto}) }/>
-
-                  <TouchableOpacity onPress={this.adicionaComentario}>
-                    <Image style={styles.botaoComentario} source={require('../../resources/img/send.png')} />
-                  </TouchableOpacity>
-                </View>
+                <InputComentario comentarioCallback={this.adicionaComentario}/>
                 
 
               </View>
@@ -188,20 +178,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginRight: 5
   },
-  novoComentario: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd'
-  },
-  input: {
-    flex: 1,
-    height: 40
-  },
-  botaoComentario: {
-    height: 30,
-    width: 30
-  }
+
 });
 
 AppRegistry.registerComponent('InstaluraMobile', () => InstaluraMobile);
