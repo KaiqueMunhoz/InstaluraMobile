@@ -47,14 +47,37 @@ class InstaluraMobile extends Component {
     this.setState({fotos})
   }
 
-  
+  adicionaComentario = (idFoto, valorComentario) => {
+    if(valorComentario === ''){
+      return;
+    }
+
+    const foto = this.state.fotos.find(foto => foto.id === idFoto);
+
+    const novaLista = [
+      ... foto.comentarios, {
+        id: Math.random(),
+        login: 'meuUsuario',
+        texto: valorComentario
+      }
+    ]
+
+    const fotoAtualizada = {
+      ...foto,
+      comentarios: novaLista
+    };
+
+    const fotos = this.state.fotos.map(foto => fotoAtualizada.id === foto.id ? fotoAtualizada : foto)
+
+    this.setState({fotos, valorComentario: ''});
+    
+  }
 
   render() {
 
-
     return (
       <FlatList data={this.state.fotos} keyExtractor={ item => item.id } renderItem={ ({item}) => 
-        <Post likeCallback={this.like} foto={item} />
+        <Post likeCallback={this.like} foto={item} comentarioCallback={this.adicionaComentario}/>
       }/>
     );
   }

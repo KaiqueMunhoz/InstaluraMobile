@@ -37,7 +37,7 @@ export default class Post extends Component {
 
     render() {
 
-      const { likeCallback, foto } = this.props;
+      const { likeCallback, foto, comentarioCallback } = this.props;
 
       return (
           <View>
@@ -65,7 +65,7 @@ export default class Post extends Component {
                     );
                   })
                 }
-                <InputComentario comentarioCallback={this.adicionaComentario}/>
+                <InputComentario idFoto={foto.id} comentarioCallback={comentarioCallback}/>
                 
 
               </View>
