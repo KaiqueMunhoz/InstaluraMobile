@@ -21,7 +21,7 @@ export default class Likes extends Component {
         if(likers.length <= 0){
           return
         }
-        return <Text style={styles.curtidas}>{likers.length} curtidas</Text>
+        return <Text style={styles.curtidas}>{likers.length} {likers.length > 1 ? 'curtidas' : 'curtida'}</Text>
     }
   
 
@@ -31,7 +31,7 @@ export default class Likes extends Component {
 
         return (
             <View>
-                <TouchableOpacity onPress={likeCallback}>
+                <TouchableOpacity onPress={() => likeCallback(foto.id)}>
                   <Image style={styles.botaoDeLike} source={this.carregaIcone(foto.likeada)} />
                 </TouchableOpacity>
                 {this.exibeLikes(foto.likers)}

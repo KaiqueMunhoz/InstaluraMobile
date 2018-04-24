@@ -23,15 +23,6 @@ const screen = Dimensions.get('screen');
 
 export default class Post extends Component {
 
-    constructor(props) {
-      super(props);
-
-      this.state = {
-        foto: this.props.foto,
-      }
-    }
-
-
     exibeLegenda(foto) {
       if(foto.comentario === ''){
         return;
@@ -44,56 +35,9 @@ export default class Post extends Component {
       );
     }
 
-
-    like = () => {
-
-      let novaLista = [];
-      if(!this.state.foto.likeada) {
-        novaLista = [
-          ... this.state.foto.likers,
-          {login: 'meuUsuario'}
-        ]
-      } else {
-        novaLista = this.state.foto.likers.filter(liker => liker.login !== 'meuUsuario')
-      }
-
-      const fotoAtualizada = {
-        ... this.state.foto,
-        likeada: !this.state.foto.likeada,
-        likers: novaLista
-      }
-
-      this.setState({foto: fotoAtualizada})
-    }
-
-    adicionaComentario = (valorComentario) => {
-      if(valorComentario === '')
-        return;
-
-      const novaLista = [
-        ... this.state.foto.comentarios, {
-          id: Math.random(),
-          login: 'meuUsuario',
-          texto: valorComentario
-        }
-      ]
-
-      const fotoAtualizada = {
-        ...this.state.foto,
-        comentarios: novaLista
-      };
-
-      this.setState({foto: fotoAtualizada, valorComentario: ''});
-      
-    }
-
-    likers = () => {
-      console.warn('likers');
-    }
-
     render() {
 
-      const { foto } = this.state;
+      const { likeCallback, foto } = this.props;
 
       return (
           <View>
@@ -106,7 +50,7 @@ export default class Post extends Component {
               <Image source={{uri: foto.urlFoto}} style={styles.foto}/>
 
               <View style={styles.rodape}>
-                <Likes foto={foto} likeCallback={this.like}/>
+                <Likes foto={foto} likeCallback={likeCallback}/>
 
 
                 {this.exibeLegenda(foto)}
