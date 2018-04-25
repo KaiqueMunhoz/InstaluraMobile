@@ -8,7 +8,20 @@ import {
     Dimensions
 } from 'react-native';
 
+efetuaLogin = () => {
+
+}
+
 export default class Login extends Component {
+
+    constructor() {
+        super();
+
+        this.state = {
+            usuario: '',
+            senha: ''
+        }
+    }
 
     render(){
         return(
@@ -21,14 +34,16 @@ export default class Login extends Component {
                     <TextInput 
                         style={styles.input}
                         placeholder='Usuario...'
-                        underlineColorAndroid="transparent"/>
+                        underlineColorAndroid="transparent"
+                        onChangeText={texto => this.setState({usuario: texto})}/>
                     <TextInput 
                         style={styles.input} 
                         placeholder='Senha...'
-                        underlineColorAndroid="transparent"/>
+                        underlineColorAndroid="transparent"
+                        onChangeText={texto => this.setState({usuario: texto})}/>
                 </View>
 
-                <Button title='Login' onPress={() => console.warn('button')} />
+                <Button title='Login' onPress={this.efetuaLogin} />
             </View>
         );
     }
