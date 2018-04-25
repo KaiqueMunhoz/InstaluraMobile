@@ -5,12 +5,10 @@ import {
     TextInput,
     Text,
     Button,
-    Dimensions
+    Dimensions,
+    AsyncStorage
 } from 'react-native';
 
-efetuaLogin = () => {
-
-}
 
 export default class Login extends Component {
 
@@ -21,6 +19,41 @@ export default class Login extends Component {
             usuario: '',
             senha: ''
         }
+    }
+
+    efetuaLogin = () => {
+        const {usuario, senha} = this.state;
+
+        const uri = 'http://instalura-api.herokuapp.com/api/public/login';
+        const requestInfo = {
+            method: 'POST',
+            body: JSON.stringify({
+                login: usuario,
+                senha: senha
+            }),
+            headers: new Headers({
+                'Content-type': 'application/json'
+            })
+        };
+
+        fetch(uri, requestInfo)
+        .then(response => {
+            // if(!response.ok){
+            //     throw new Error('Mensagenzinha bonitinha')
+            // }
+            return response.text();
+        })
+        .then(token => {
+            console.warn(token)
+            // const usuario = {
+            //     nome: this.state.usuario,
+            //     token
+            // }
+            // AsyncStorage.setItem('usuario', JSON.stringify(usuario));
+        })
+        .catch(error => {
+            // console.warn(error)
+        })
     }
 
     render(){
@@ -34,11 +67,14 @@ export default class Login extends Component {
                     <TextInput 
                         style={styles.input}
                         placeholder='Usuario...'
+                        autoCapitalize='none'
                         underlineColorAndroid="transparent"
                         onChangeText={texto => this.setState({usuario: texto})}/>
                     <TextInput 
                         style={styles.input} 
                         placeholder='Senha...'
+                        autoCapitalize='none'
+                        secureTextEntry={true}
                         underlineColorAndroid="transparent"
                         onChangeText={texto => this.setState({usuario: texto})}/>
                 </View>
