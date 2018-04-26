@@ -24,7 +24,7 @@ export default class Login extends Component {
     efetuaLogin = () => {
         const {usuario, senha} = this.state;
 
-        const uri = 'http://instalura-api.herokuapp.com/api/public/login';
+        const uri = 'http://instalura-api.herokuapp.com/api/login';
         const requestInfo = {
             method: 'POST',
             body: JSON.stringify({
