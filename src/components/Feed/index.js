@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  FlatList
+  FlatList,
+  AsyncStorage
 } from 'react-native';
 
 import Post from '../Post';
@@ -16,7 +17,23 @@ export default class Feed extends Component {
   }
 
   componentDidMount(){
-    fetch('http://instalura-api.herokuapp.com/api/public/fotos/rafael')
+
+    const uri = 'http://instalura-api.herokuapp.com/api/fotos';
+
+    AsyncStorage.getItem('usuario')
+    .then(token => JSON.parse(token))
+    .then(usuario => {
+      return {
+        headers: new Headers({
+          'Content-type': 'application/json',
+          'X-AUTH-TOKEN': usuario.token
+        })
+      }
+    })
+    .then(requestInfo => {
+      // console.warn(JSON.stringify(requestInfo))
+      return fetch(uri, requestInfo)
+    })
     .then(response => response.json())
     .then(json => this.setState({fotos: json}))
   }
