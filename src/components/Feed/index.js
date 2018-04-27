@@ -50,25 +50,31 @@ export default class Feed extends Component {
 
     const foto = this.findFoto(idFoto);
 
-    let novaLista = [];
-
-    if(!foto.likeada) {
-      novaLista = [
-        ... foto.likers,
-        {login: 'meuUsuario'}
-      ]
-    } else {
-      novaLista = foto.likers.filter(liker => liker.login !== 'meuUsuario')
-    }
-
-    const fotoAtualizada = {
-      ... foto,
-      likeada: !foto.likeada,
-      likers: novaLista
-    }
-
-    const fotos = this.findFotos(fotoAtualizada);
-    this.setState({fotos})
+    AsyncStorage.getItem('usuario')
+    .then(token => JSON.parse(token))
+    .then(usuario => {
+      
+      let novaLista = [];
+      if(!foto.likeada) {
+        novaLista = [
+          ... foto.likers,
+          {login: usuario.nome}
+        ]
+      } else {
+        novaLista = foto.likers.filter(liker => liker.login !== usuario.nome)
+      }
+      return novaLista;
+    })
+    .then(novaLista => {
+      
+      const fotoAtualizada = {
+        ... foto,
+        likeada: !foto.likeada,
+        likers: novaLista
+      };
+      const fotos = this.findFotos(fotoAtualizada);
+      this.setState({fotos})
+    });
   }
 
   adicionaComentario = (idFoto, valorComentario) => {
