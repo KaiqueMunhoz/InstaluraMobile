@@ -24,7 +24,7 @@ export default class Login extends Component {
     efetuaLogin = () => {
         const {usuario, senha} = this.state;
 
-        const uri = 'http://instalura-api.herokuapp.com/api/login';
+        const uri = 'http://instalura-api.herokuapp.com/api/public/login';
         const requestInfo = {
             method: 'POST',
             body: JSON.stringify({
@@ -41,10 +41,11 @@ export default class Login extends Component {
             // if(!response.ok){
             //     throw new Error('Mensagenzinha bonitinha')
             // }
+            console.log(response.text);
             return response.text();
         })
         .then(token => {
-            console.warn(token)
+            // console.warn(token)  
             // const usuario = {
             //     nome: this.state.usuario,
             //     token
@@ -76,7 +77,7 @@ export default class Login extends Component {
                         autoCapitalize='none'
                         secureTextEntry={true}
                         underlineColorAndroid="transparent"
-                        onChangeText={texto => this.setState({usuario: texto})}/>
+                        onChangeText={texto => this.setState({senha: texto})}/>
                 </View>
 
                 <Button title='Login' onPress={this.efetuaLogin} />
