@@ -38,19 +38,23 @@ export default class Login extends Component {
 
         fetch(uri, requestInfo)
         .then(response => {
-            // if(!response.ok){
-            //     throw new Error('Mensagenzinha bonitinha')
-            // }
-            console.log(response.text);
+            if(!response.ok){
+                throw new Error('Mensagenzinha bonitinha')
+            }
+            
             return response.text();
         })
         .then(token => {
-            // console.warn(token)  
-            // const usuario = {
-            //     nome: this.state.usuario,
-            //     token
-            // }
-            // AsyncStorage.setItem('usuario', JSON.stringify(usuario));
+            const usuario = {
+                nome: this.state.usuario,
+                token
+            }
+            AsyncStorage.setItem('usuario', JSON.stringify(usuario));
+
+            this.props.navigator.resetTo({
+                screen: 'Feed',
+                title: 'instalura'
+            })
         })
         .catch(error => {
             // console.warn(error)
