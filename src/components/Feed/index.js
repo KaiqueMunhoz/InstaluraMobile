@@ -75,6 +75,22 @@ export default class Feed extends Component {
       const fotos = this.findFotos(fotoAtualizada);
       this.setState({fotos})
     });
+
+    const uri = `http://instalura-api.herokuapp.com/api/fotos/${idFoto}/like`;
+    AsyncStorage.getItem('usuario')
+    .then(token => JSON.parse(token))
+    .then(usuario => {
+      return {
+        method: 'POST',
+        headers: new Headers({
+          'Content-type': 'application/json',
+          'X-AUTH-TOKEN': usuario.token
+        })
+      }
+    })
+    .then(requestInfo => {
+      return fetch(uri, requestInfo)
+    })
   }
 
   adicionaComentario = (idFoto, valorComentario) => {
