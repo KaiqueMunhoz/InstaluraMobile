@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "react": "16.8.6",
+    "react": "^16.8.6",
     "mem": "ˆ4.0.0",
     "react-native": "0.59.8",
     "react-native-navigation": "2.26.4"
